@@ -92,3 +92,27 @@ function generatePDF(distances, totalTrees){
     );
     documentPDF.save("SAN MARTIN.pdf")
 }
+
+let btnsiniestros= document.getElementById("btnsiniestros");
+
+btnsiniestros.addEventListener('click',
+    async ()=>{
+        let response= await fetch("siniestros_san_martin.geojson");
+        let datos= await response.json();
+
+        L.geoJSON(
+            datos,
+            {
+                pointToLayer: (feature, latlong)=>{                    
+                    return L.circleMarker(latlong,{
+                        radius:5,
+                        fillColor:'red',
+                        weight:1,
+                        opacity:1,
+                        fillOpacity: 0.5,
+                    })
+                }
+            }
+        ).addTo(map);
+    }
+)
